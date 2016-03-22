@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public delegate void UnitDeathCallbackType(GameObject deadObj);
+
 [RequireComponent(typeof(NavMeshAgent))]
 public class BaseUnit : MonoBehaviour {
 
@@ -74,7 +76,15 @@ public class BaseUnit : MonoBehaviour {
 
     }
 
-
+    public UnitDeathCallbackType deathCallback = null;
+    public void die()
+    {
+        if(deathCallback != null)
+        {
+            deathCallback(gameObject);
+        }
+        Destroy(gameObject);
+    }
 
     void Start()
     {
@@ -83,10 +93,9 @@ public class BaseUnit : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        //Debug.Log("collision with " + col.gameObject.tag);
         if (col.gameObject.tag == "EndPoint")
         {
-            Destroy(gameObject);
+            die();
         }
     }
 }

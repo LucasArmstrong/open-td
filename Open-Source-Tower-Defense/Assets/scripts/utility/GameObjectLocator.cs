@@ -16,10 +16,7 @@ public class GameObjectLocator
         return objects[path];
     }
 
-    private GameObjectLocator()
-    {
-
-    }
+    private GameObjectLocator() { }
 
     //singleton code
     private static GameObjectLocator _instance;

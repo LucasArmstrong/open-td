@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -88,6 +82,9 @@
     <Compile Include="Assets\scripts\core\levels\LevelUnit.cs" />
     <Compile Include="Assets\scripts\core\structures\EndPoint.cs" />
     <Compile Include="Assets\scripts\core\structures\StartPoint.cs" />
+    <Compile Include="Assets\scripts\core\towers\BaseTower.cs" />
+    <Compile Include="Assets\scripts\core\towers\TowerFoundation.cs" />
+    <Compile Include="Assets\scripts\core\towers\TowerManager.cs" />
     <Compile Include="Assets\scripts\core\units\BaseUnit.cs" />
     <Compile Include="Assets\scripts\utility\GameObjectLocator.cs" />
   </ItemGroup>
