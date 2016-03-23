@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public delegate void UnitDeathCallbackType(GameObject deadObj);
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class BaseUnit : MonoBehaviour {
+
+    private static int _id_counter = 0;
+    private static string _layer_string = "Units";
 
     private int _id = 0;
     public int id
@@ -79,6 +83,7 @@ public class BaseUnit : MonoBehaviour {
     public UnitDeathCallbackType deathCallback = null;
     public void die()
     {
+        Debug.Log("Unit #"+id+" is dead");
         if(deathCallback != null)
         {
             deathCallback(gameObject);
@@ -88,6 +93,8 @@ public class BaseUnit : MonoBehaviour {
 
     void Start()
     {
+        transform.gameObject.layer = LayerMask.NameToLayer(BaseUnit._layer_string);
+        _id = ++BaseUnit._id_counter;
         moveToPoint(EndPointLocator.endPointObject.transform.position);
     }
 
@@ -97,5 +104,31 @@ public class BaseUnit : MonoBehaviour {
         {
             die();
         }
+    }
+
+    public static List<BaseUnit> getUnitsInRange(Vector3 pos, float radius)
+    {
+        List<BaseUnit> unitList = new List<BaseUnit>();
+
+        int _unit_layer = LayerMask.NameToLayer(BaseUnit._layer_string);
+
+        Collider[] colliders = Physics.OverlapSphere(pos, radius, 1 << _unit_layer);
+        List<GameObject> alreadyChecked = new List<GameObject>();
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (alreadyChecked.Contains(colliders[i].gameObject)) { continue; }
+            alreadyChecked.Add(colliders[i].gameObject);
+
+            if (colliders[i] != null)
+            {
+                BaseUnit unit = colliders[i].gameObject.GetComponent<BaseUnit>();
+                if (unit != null && !unitList.Contains(unit))
+                {
+                    unitList.Add(unit);
+                }
+            }
+        }
+
+        return unitList;
     }
 }
