@@ -1,13 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
-public class BaseTower : MonoBehaviour {
+public class BaseTower : MonoBehaviour, IProjectileOwner {
+
+    [SerializeField]
+    private GameObject projectileOrigin = null;
+
+    [SerializeField]
+    private float projectileSpeed = 0f;
+
+    [SerializeField]
+    private string projectilePath = string.Empty;
 
     [SerializeField]
     private float range = 15f;
 
     [SerializeField]
     private float coolDown = 1.5f;
+
+    [SerializeField]
+    private int damage = 1;
 
     private BaseUnit currentTarget = null;
   
@@ -26,6 +39,18 @@ public class BaseTower : MonoBehaviour {
             if(currentTarget != null)
             {
                 Debug.Log("Currently targeting: " + currentTarget.id);
+                //shoot projectile here
+                Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f,1f,0f);
+                GameObject spawnedObj = (GameObject)Instantiate(GameObjectLocator.Instance.getGameOjbectByPath(projectilePath),
+                            startPos,
+                            Quaternion.identity);
+                BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();
+                if(projectile != null)
+                {
+                    projectile.speed = projectileSpeed;
+                    projectile.setOwner(this);
+                    projectile.projectileToGameObject(startPos, currentTarget.gameObject);
+                }
             }
             else
             {
@@ -67,5 +92,21 @@ public class BaseTower : MonoBehaviour {
         }
 
         return unit;
+    }
+
+    void IProjectileOwner.projectileHit(Vector3 point)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IProjectileOwner.projectileHit(GameObject gameObject)
+    {
+        Debug.Log("BaseTower.projectileHit: " + gameObject.name);
+        BaseUnit baseUnit = gameObject.GetComponent<BaseUnit>();
+        if(baseUnit != null)
+        {
+            //take life etc
+            baseUnit.takeDamage(damage);
+        }
     }
 }

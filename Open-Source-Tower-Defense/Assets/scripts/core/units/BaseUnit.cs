@@ -77,7 +77,10 @@ public class BaseUnit : MonoBehaviour {
     public void takeDamage(int damage)
     {
         healthCurrent -= damage;
-
+        if(healthCurrent <= 0)
+        {
+            die();
+        }
     }
 
     public UnitDeathCallbackType deathCallback = null;
