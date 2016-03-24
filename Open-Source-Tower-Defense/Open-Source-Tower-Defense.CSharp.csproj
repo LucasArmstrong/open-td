@@ -88,7 +88,9 @@
     <Compile Include="Assets\scripts\core\towers\TowerFoundation.cs" />
     <Compile Include="Assets\scripts\core\towers\TowerManager.cs" />
     <Compile Include="Assets\scripts\core\units\BaseUnit.cs" />
-    <Compile Include="Assets\scripts\utility\GameObjectLocator.cs" />
+    <Compile Include="Assets\scripts\core\units\SetRenderer.cs" />
+    <Compile Include="Assets\scripts\core\units\UnitHealthBars.cs" />
+    <Compile Include="Assets\scripts\utility\ObjectLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_import\Mummy\Materials\myStandart.shader" />

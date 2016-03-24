@@ -9,6 +9,10 @@ public class BaseUnit : MonoBehaviour {
     private static int _id_counter = 0;
     private static string _layer_string = "Units";
 
+    public Renderer trueRenderer = null;
+
+    private UnitHealthBars _UnitHealthBars = null;
+
     private int _id = 0;
     public int id
     {
@@ -76,11 +80,19 @@ public class BaseUnit : MonoBehaviour {
 
     public void takeDamage(int damage)
     {
+        //Debug.Log("BaseUnit.takeDamage: " + damage + " , id=" + id);
         healthCurrent -= damage;
+
+        if(_UnitHealthBars != null)
+        {
+            _UnitHealthBars.forceBarUpdate();
+        }
+
         if(healthCurrent <= 0)
         {
             die();
         }
+
     }
 
     public UnitDeathCallbackType deathCallback = null;
@@ -99,6 +111,7 @@ public class BaseUnit : MonoBehaviour {
         transform.gameObject.layer = LayerMask.NameToLayer(BaseUnit._layer_string);
         _id = ++BaseUnit._id_counter;
         moveToPoint(EndPointLocator.endPointObject.transform.position);
+        _UnitHealthBars = gameObject.AddComponent<UnitHealthBars>();
     }
 
     void OnCollisionEnter(Collision col)

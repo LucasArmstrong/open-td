@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+//IProjectileOwner is implemented in objects that wish to own a projectile
+//the owner handles the hit event 
 public interface IProjectileOwner
 {
     void projectileHit(Vector3 point);
@@ -10,6 +11,7 @@ public interface IProjectileOwner
 [RequireComponent(typeof(Rigidbody))]
 public class BaseProjectile : MonoBehaviour {
     
+    //used to control the movement speed of projectile
     private float _speed = 0f;
     public float speed
     {
@@ -17,21 +19,28 @@ public class BaseProjectile : MonoBehaviour {
         set { _speed = value; }
     }
 
+    //this will be set if the projectile is targeting a GameObject
     private GameObject _targetObject = null;
 
+    //this will be set if the projectile is targeting a point in the world
     private Vector3 _targetPoint = Vector3.zero;
 
+    //the projectile spawns at this point
     private Vector3 _originPoint = Vector3.zero;
 
+    //object that launched the projectile (probably a tower)
     private IProjectileOwner owner = null;
 
+    //flag to show if projectile has started its path
     private bool _projectileLaunched = false;
 
+    //sets the owner object of the projectile
     public void setOwner(IProjectileOwner owner)
     {
         this.owner = owner;
     }
 
+    //use this to fire a projectile at a GameObject
     public void projectileToGameObject(Vector3 originPoint, GameObject targetObject)
     {
         this._originPoint = originPoint;
@@ -39,6 +48,7 @@ public class BaseProjectile : MonoBehaviour {
         _projectileLaunched = true;
     }
 
+    //called when projectile collides with GameObject its targeting
     private void projectileHitGameObject()
     {
         if(owner != null)
@@ -47,6 +57,7 @@ public class BaseProjectile : MonoBehaviour {
         }
     }
 
+    //use this to fire a projectile at a point
     public void projectileToPoint(Vector3 originPoint, Vector3 targetPoint)
     {
         this._originPoint = originPoint;
@@ -54,6 +65,7 @@ public class BaseProjectile : MonoBehaviour {
         _projectileLaunched = true;
     }
 
+    //called when projectile reaches the point its targeting
     private void projectileHitPoint()
     {
         if (owner != null)
@@ -89,6 +101,7 @@ public class BaseProjectile : MonoBehaviour {
 
 	}
 
+    //moves the projectile towards the target position and sets projectile rotation to "look at" the target
     private void updatePosition(Vector3 targetPos)
     {
         float step = speed * Time.deltaTime;
@@ -101,6 +114,7 @@ public class BaseProjectile : MonoBehaviour {
         transform.rotation = rot;
     }
 
+    //Unit OnCollisionEnter event -- triggered when projectile enters another collider
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject == _targetObject)

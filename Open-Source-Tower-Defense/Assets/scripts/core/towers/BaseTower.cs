@@ -38,10 +38,10 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
 
             if(currentTarget != null)
             {
-                Debug.Log("Currently targeting: " + currentTarget.id);
+                //Debug.Log("Currently targeting: " + currentTarget.id);
                 //shoot projectile here
                 Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f,1f,0f);
-                GameObject spawnedObj = (GameObject)Instantiate(GameObjectLocator.Instance.getGameOjbectByPath(projectilePath),
+                GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameOjbectByPath(projectilePath),
                             startPos,
                             Quaternion.identity);
                 BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();
