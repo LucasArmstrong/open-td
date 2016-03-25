@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public delegate void UnitDeathCallbackType(GameObject deadObj);
+public delegate void UnitDeathCallbackType(BaseUnit deadObj);
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class BaseUnit : MonoBehaviour {
 
     private static int _id_counter = 0;
     private static string _layer_string = "Units";
+
+    public int goldValue = 0;
 
     public Renderer trueRenderer = null;
 
@@ -80,7 +82,6 @@ public class BaseUnit : MonoBehaviour {
 
     public void takeDamage(int damage)
     {
-        //Debug.Log("BaseUnit.takeDamage: " + damage + " , id=" + id);
         healthCurrent -= damage;
 
         if(_UnitHealthBars != null)
@@ -96,12 +97,20 @@ public class BaseUnit : MonoBehaviour {
     }
 
     public UnitDeathCallbackType deathCallback = null;
+    private List<UnitDeathCallbackType> _deathCallbacks = new List<UnitDeathCallbackType>();
+    public void registerDeathCallback(UnitDeathCallbackType callback)
+    {
+        _deathCallbacks.Add(callback);
+    }
+
     public void die()
     {
-        Debug.Log("Unit #"+id+" is dead");
-        if(deathCallback != null)
+        if(_deathCallbacks.Count > 0)
         {
-            deathCallback(gameObject);
+            foreach(UnitDeathCallbackType callback in _deathCallbacks)
+            {
+                callback(this);
+            }
         }
         Destroy(gameObject);
     }
@@ -118,6 +127,8 @@ public class BaseUnit : MonoBehaviour {
     {
         if (col.gameObject.tag == "EndPoint")
         {
+            //unit reached the end of the maze, we dont want to award gold
+            goldValue = 0;
             die();
         }
     }

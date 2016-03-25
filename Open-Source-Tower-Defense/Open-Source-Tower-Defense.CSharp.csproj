@@ -76,12 +76,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\InitializeTD.cs" />
+    <Compile Include="Assets\scripts\core\currency\CurrencyManager.cs" />
+    <Compile Include="Assets\scripts\core\currency\GoldText.cs" />
     <Compile Include="Assets\scripts\core\levels\BaseLevel.cs" />
     <Compile Include="Assets\scripts\core\levels\LevelLocator.cs" />
     <Compile Include="Assets\scripts\core\levels\LevelManager.cs" />
     <Compile Include="Assets\scripts\core\levels\LevelUnit.cs" />
     <Compile Include="Assets\scripts\core\projectiles\BaseProjectile.cs" />
-    <Compile Include="Assets\scripts\core\projectiles\ProjectileManager.cs" />
     <Compile Include="Assets\scripts\core\structures\EndPoint.cs" />
     <Compile Include="Assets\scripts\core\structures\StartPoint.cs" />
     <Compile Include="Assets\scripts\core\towers\BaseTower.cs" />

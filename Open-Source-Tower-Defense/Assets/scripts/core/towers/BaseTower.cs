@@ -38,23 +38,12 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
 
             if(currentTarget != null)
             {
-                //Debug.Log("Currently targeting: " + currentTarget.id);
-                //shoot projectile here
-                Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f,1f,0f);
-                GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameOjbectByPath(projectilePath),
-                            startPos,
-                            Quaternion.identity);
-                BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();
-                if(projectile != null)
-                {
-                    projectile.speed = projectileSpeed;
-                    projectile.setOwner(this);
-                    projectile.projectileToGameObject(startPos, currentTarget.gameObject);
-                }
+                //this will shoot a projectile at the target
+                (this as IProjectileOwner).projectileLaunch(currentTarget.gameObject);
             }
             else
             {
-                Debug.Log("Currently targeting nothing.");
+                //Debug.Log("Currently targeting nothing.");
             }
         }
         else
@@ -94,6 +83,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
         return unit;
     }
 
+    //**************  IProjectileOwner implementation start *******************//
     void IProjectileOwner.projectileHit(Vector3 point)
     {
         throw new NotImplementedException();
@@ -101,7 +91,6 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
 
     void IProjectileOwner.projectileHit(GameObject gameObject)
     {
-        Debug.Log("BaseTower.projectileHit: " + gameObject.name);
         BaseUnit baseUnit = gameObject.GetComponent<BaseUnit>();
         if(baseUnit != null)
         {
@@ -109,4 +98,25 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
             baseUnit.takeDamage(damage);
         }
     }
+
+    void IProjectileOwner.projectileLaunch(Vector3 point)
+    {
+        throw new NotImplementedException();
+    }
+
+    void IProjectileOwner.projectileLaunch(GameObject gameObject)
+    {
+        Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f, 1f, 0f);
+        GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameOjbectByPath(projectilePath),
+                    startPos,
+                    Quaternion.identity);
+        BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();
+        if (projectile != null)
+        {
+            projectile.speed = projectileSpeed;
+            projectile.owner = this;
+            projectile.projectileToGameObject(startPos, currentTarget.gameObject);
+        }
+    }
+    //**************  IProjectileOwner implementation END *******************//
 }

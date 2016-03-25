@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
+//attach this to the main render object used by a BaseUnit
 public class SetRenderer : MonoBehaviour {
 
 	// Use this for initialization

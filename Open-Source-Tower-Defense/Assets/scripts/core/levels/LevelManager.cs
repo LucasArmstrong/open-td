@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour
         {
             if (spawnTimer >= spawnTimerLimit)
             {
+                //this needs to be moved to a UnitManager
                 LevelUnit unit = currentLevelUnits[0];
                 currentLevelUnits.RemoveAt(0);
                 GameObject spawnedObj = (GameObject)Instantiate(unit.prefab,
@@ -56,9 +57,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void UnitDeathCallback(GameObject deadObj)
+    private void UnitDeathCallback(BaseUnit deadObj)
     {
-        spawnedUnits.Remove(deadObj);
+        if(deadObj.goldValue > 0)
+        {
+            CurrencyManager.AddGold(deadObj.goldValue, deadObj.transform.position, gameObject);
+        }
+        
+        spawnedUnits.Remove(deadObj.gameObject);
     }
 
     IEnumerator loadNextLevel(float waitTime)
@@ -73,6 +79,8 @@ public class LevelManager : MonoBehaviour
         {
             currentLevel = levelLocator.levels[0];
             levelLocator.levels.RemoveAt(0);
+
+            //this needs to be moved to a UnitManager
             currentLevelUnits = new List<LevelUnit>();
             foreach (LevelUnit unit in currentLevel.levelUnits)
             {
@@ -111,12 +119,14 @@ public class LevelManager : MonoBehaviour
 
     public void configureBaseUnit(GameObject spawnedObj, LevelUnit unit)
     {
+        //this needs to be moved to a UnitManager
         BaseUnit baseUnit = spawnedObj.GetComponent<BaseUnit>();
         baseUnit.healthMax = unit.health;
         baseUnit.healthCurrent = unit.health;
         baseUnit.moveSpeed = unit.speed;
+        baseUnit.goldValue = unit.goldValue;
         UnitDeathCallbackType deathCallback = new UnitDeathCallbackType(this.UnitDeathCallback);
-        baseUnit.deathCallback = deathCallback;
+        baseUnit.registerDeathCallback(deathCallback);
     }
 }
 

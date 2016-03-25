@@ -6,6 +6,8 @@ public interface IProjectileOwner
 {
     void projectileHit(Vector3 point);
     void projectileHit(GameObject gameObject);
+    void projectileLaunch(Vector3 point);
+    void projectileLaunch(GameObject gameObject);
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -29,16 +31,15 @@ public class BaseProjectile : MonoBehaviour {
     private Vector3 _originPoint = Vector3.zero;
 
     //object that launched the projectile (probably a tower)
-    private IProjectileOwner owner = null;
+    private IProjectileOwner _owner = null;
+    public IProjectileOwner owner
+    {
+        get { return _owner; }
+        set { _owner = value; }
+    }
 
     //flag to show if projectile has started its path
     private bool _projectileLaunched = false;
-
-    //sets the owner object of the projectile
-    public void setOwner(IProjectileOwner owner)
-    {
-        this.owner = owner;
-    }
 
     //use this to fire a projectile at a GameObject
     public void projectileToGameObject(Vector3 originPoint, GameObject targetObject)
@@ -80,7 +81,9 @@ public class BaseProjectile : MonoBehaviour {
         //move towards target object
         if(_targetObject != null)
         {
-            updatePosition(_targetObject.transform.position);
+            //add 1 to the y position so that the projectile isnt targeting the feet of the object
+            Vector3 pos = _targetObject.transform.position + new Vector3(0f, 1f, 0f);
+            updatePosition(pos);
         }
 
         //move towards target point
