@@ -16,9 +16,8 @@ public class ObjectLocator
         return objects[path];
     }
 
-    private ObjectLocator() { }
-
     //singleton code
+    private ObjectLocator() { }
     private static ObjectLocator _instance;
     public static ObjectLocator Instance
     {

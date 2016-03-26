@@ -20,7 +20,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
     private float coolDown = 1.5f;
 
     [SerializeField]
-    private int damage = 1;
+    protected int damage = 1;
 
     private BaseUnit currentTarget = null;
   
@@ -84,12 +84,12 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
     }
 
     //**************  IProjectileOwner implementation start *******************//
-    void IProjectileOwner.projectileHit(Vector3 point)
+    public virtual void projectileHit(Vector3 point)
     {
         throw new NotImplementedException();
     }
 
-    void IProjectileOwner.projectileHit(GameObject gameObject)
+    public virtual void projectileHit(GameObject gameObject)
     {
         BaseUnit baseUnit = gameObject.GetComponent<BaseUnit>();
         if(baseUnit != null)
@@ -99,12 +99,12 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
         }
     }
 
-    void IProjectileOwner.projectileLaunch(Vector3 point)
+    public virtual void projectileLaunch(Vector3 point)
     {
         throw new NotImplementedException();
     }
 
-    void IProjectileOwner.projectileLaunch(GameObject gameObject)
+    public virtual void projectileLaunch(GameObject gameObject)
     {
         Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f, 1f, 0f);
         GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameOjbectByPath(projectilePath),
