@@ -115,7 +115,12 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
         {
             projectile.speed = projectileSpeed;
             projectile.owner = this;
-            projectile.projectileToGameObject(startPos, currentTarget.gameObject);
+            projectile.useGravity = true;
+
+            float yOffset = currentTarget.trueRenderer != null ? currentTarget.trueRenderer.bounds.size.y : 1f;
+            projectile.vectorOffset = new Vector3(0f, yOffset, 0f);
+
+            projectile.projectileToGameObject(currentTarget.gameObject);
         }
     }
     //**************  IProjectileOwner implementation END *******************//

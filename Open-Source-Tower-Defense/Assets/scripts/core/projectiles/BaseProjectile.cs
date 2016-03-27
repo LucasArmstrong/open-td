@@ -20,6 +20,13 @@ public class BaseProjectile : MonoBehaviour {
         get { return _speed; }
         set { _speed = value; }
     }
+    
+    //field to set the use of Rigidbody's built in gravity parameter
+    public bool useGravity
+    {
+        get { return GetComponent<Rigidbody>().useGravity; }
+        set { GetComponent<Rigidbody>().useGravity = value; }
+    }
 
     //this will be set if the projectile is targeting a GameObject
     private GameObject _targetObject = null;
@@ -27,8 +34,13 @@ public class BaseProjectile : MonoBehaviour {
     //this will be set if the projectile is targeting a point in the world
     private Vector3 _targetPoint = Vector3.zero;
 
-    //the projectile spawns at this point
-    private Vector3 _originPoint = Vector3.zero;
+    //used to adjust the target point of the projectile when its targeting a GameObject
+    private Vector3 _vectorOffset = Vector3.zero;
+    public Vector3 vectorOffset
+    {
+        get { return _vectorOffset; }
+        set { _vectorOffset = value; }
+    }
 
     //object that launched the projectile (probably a tower)
     private IProjectileOwner _owner = null;
@@ -42,9 +54,8 @@ public class BaseProjectile : MonoBehaviour {
     private bool _projectileLaunched = false;
 
     //use this to fire a projectile at a GameObject
-    public void projectileToGameObject(Vector3 originPoint, GameObject targetObject)
+    public void projectileToGameObject(GameObject targetObject)
     {
-        this._originPoint = originPoint;
         this._targetObject = targetObject;
         _projectileLaunched = true;
     }
@@ -59,9 +70,8 @@ public class BaseProjectile : MonoBehaviour {
     }
 
     //use this to fire a projectile at a point
-    public void projectileToPoint(Vector3 originPoint, Vector3 targetPoint)
+    public void projectileToPoint(Vector3 targetPoint)
     {
-        this._originPoint = originPoint;
         this._targetPoint = targetPoint;
         _projectileLaunched = true;
     }
@@ -81,8 +91,7 @@ public class BaseProjectile : MonoBehaviour {
         //move towards target object
         if(_targetObject != null)
         {
-            //add 1 to the y position so that the projectile isnt targeting the feet of the object
-            Vector3 pos = _targetObject.transform.position + new Vector3(0f, 1f, 0f);
+            Vector3 pos = _targetObject.transform.position + vectorOffset;
             updatePosition(pos);
         }
 
@@ -97,6 +106,8 @@ public class BaseProjectile : MonoBehaviour {
                 Destroy(gameObject);
             }
         }
+
+        //projectile was created but no longer has a target, kill projectile
         else if (_projectileLaunched)
         {
             Destroy(gameObject);
