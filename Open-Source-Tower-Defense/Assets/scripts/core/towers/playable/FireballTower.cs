@@ -1,15 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class FireballTower : BaseTower
+public class FireballTower : BaseTower, ITower
 {
     private float _criticalChance = 25f;//25%
+
+    public int id = TowerManager._TOWER_ID_FIREBALL;
+
+    public string towerName = TowerManager._TOWER_NAME_FIREBALL;
 
     //fireball tower has a chance to hit for 2x damage, we handle that here
     public override void projectileHit(GameObject gameObject)
     {
         int originalDamage = damage;
 
-        float rand = Random.Range(0f, 100f);
+        float rand = UnityEngine.Random.Range(0f, 100f);
         if(rand <= _criticalChance)
         {
             //Debug.Log("Critical hit: "+rand);
@@ -24,5 +29,15 @@ public class FireballTower : BaseTower
         base.projectileHit(gameObject);
 
         damage = originalDamage;
+    }
+
+    public override int getId()
+    {
+        return id;
+    }
+
+    public override string getName()
+    {
+        return towerName;
     }
 }

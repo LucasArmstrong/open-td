@@ -3,13 +3,7 @@ using System.Collections;
 
 public class TowerManager : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public static int _TOWER_ID_FIREBALL = 1;
+    public static string _TOWER_NAME_FIREBALL = "Fireball Tower";
+    
 }

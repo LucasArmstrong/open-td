@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-public class BaseTower : MonoBehaviour, IProjectileOwner {
+public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
 
     [SerializeField]
     private GameObject projectileOrigin = null;
@@ -124,4 +124,16 @@ public class BaseTower : MonoBehaviour, IProjectileOwner {
         }
     }
     //**************  IProjectileOwner implementation END *******************//
+
+
+
+    public virtual int getId()
+    {
+        return 0;
+    }
+
+    public virtual string getName()
+    {
+        return string.Empty;
+    }
 }
