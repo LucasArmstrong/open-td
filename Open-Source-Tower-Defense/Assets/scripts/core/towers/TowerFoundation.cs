@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class TowerFoundation : MonoBehaviour {
-
-    public List<BaseTower> towerTypes = new List<BaseTower>();
-
+    
     public int typeId = 0;
 
     private BaseTower _towerPrefab = null;
@@ -12,22 +9,21 @@ public class TowerFoundation : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        BaseTower towerToSpawn = getTowerPrefabByTypeID(typeId) as BaseTower;
-        if (towerToSpawn != null)
+        if(typeId != 0)
         {
-            _towerPrefab = (BaseTower)Instantiate(towerToSpawn, transform.position, Quaternion.identity);
+            _towerPrefab = createTower(transform, typeId);
         }
+            
     }
 
-    public ITower getTowerPrefabByTypeID(int id)
+    private BaseTower createTower(Transform foundation, int id)
     {
-        foreach (ITower t in towerTypes)
+        BaseTower towerToSpawn = TowerManager.getTowerPrefabByTypeID(id) as BaseTower;
+        if (towerToSpawn != null)
         {
-            if(t.getId() == id)
-            {
-                return t;
-            }
+            return (BaseTower)Instantiate(towerToSpawn, foundation.position, Quaternion.identity);
         }
         return null;
     }
+
 }

@@ -2,6 +2,8 @@
 
 public class InitializeTD : MonoBehaviour {
 
+    private const float _START_DELAY_SECONDS = 5f;
+
     [SerializeField]
     private string VERSION = "0";
 
@@ -10,13 +12,18 @@ public class InitializeTD : MonoBehaviour {
 
     private LevelManager levelManager = null;
     private CurrencyManager currencyManager = null;
+    private TowerManager towerManager = null;
 
     void Awake()
     {
         Debug.Log("(" + VERSION + ") " + TITLE);
 
+        towerManager = gameObject.AddComponent<TowerManager>();
         levelManager = gameObject.AddComponent<LevelManager>();
         currencyManager = gameObject.AddComponent<CurrencyManager>();
+
+        Debug.Log("TD starts in " + _START_DELAY_SECONDS + " seconds!");
+        StartCoroutine(levelManager.loadNextLevel(_START_DELAY_SECONDS));
     }
 
 }

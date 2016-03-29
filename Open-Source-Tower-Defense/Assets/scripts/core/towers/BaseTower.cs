@@ -126,7 +126,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     //**************  IProjectileOwner implementation END *******************//
 
 
-
+    //**************  ITower implementation *******************//
     public virtual int getId()
     {
         return 0;
@@ -136,4 +136,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     {
         return string.Empty;
     }
+    //**************  ITower implementation END *******************//
+
+
 }

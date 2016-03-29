@@ -16,15 +16,6 @@ public class LevelManager : MonoBehaviour
     private float spawnTimerLimit = 1.5f;//time inbetween unit spawns
     public List<GameObject> spawnedUnits = new List<GameObject>();
 
-    void Awake()
-    {
-        if(levelLocator.levels.Count > 0)
-        {
-            loadNextLevel();
-        }
-
-    }
-
     void Update()
     {
         if (runCurrentLevel && currentLevelUnits.Count > 0)
@@ -67,7 +58,7 @@ public class LevelManager : MonoBehaviour
         spawnedUnits.Remove(deadObj.gameObject);
     }
 
-    IEnumerator loadNextLevel(float waitTime)
+    public IEnumerator loadNextLevel(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         loadNextLevel();
