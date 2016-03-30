@@ -12,6 +12,10 @@ public class TowerFoundation : MonoBehaviour {
         if(typeId != 0)
         {
             _towerPrefab = createTower(transform, typeId);
+            if(_towerPrefab != null)
+            {
+                GetComponent<Renderer>().enabled = false;
+            }
         }
             
     }

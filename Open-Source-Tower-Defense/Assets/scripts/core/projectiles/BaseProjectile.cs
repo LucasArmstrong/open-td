@@ -18,11 +18,13 @@ using UnityEngine;
   * @interface IProjectileOwner 
   * @desc Implemented in objects that wish to own a projectile 
   *  the owner handles the hit event
+  *
   * @method projectileHit(Vector3 point) - Handles hit event on a Vector3
   * @method projectileHit(GameObject gameObject) - Handles hit event on a GameObject
   * @method projectileLaunch(Vector3 point) - Starts a projectile that targets Vector3 
   * @method projectileLaunch(GameObject gameObject) - Starts a projectile that targets GameObject
   * 
+  * @requires UnityEngine
 */
 public interface IProjectileOwner
 {

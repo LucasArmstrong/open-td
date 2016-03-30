@@ -62,14 +62,16 @@ public class BaseUnit : MonoBehaviour {
         }
     }
 
+    private float _originalMoveSpeed = 0f;
     public float moveSpeed
     {
-        get
-        {
-            return navAgent.speed;
-        }
+        get { return navAgent.speed; }
         set
-        {
+        {   
+            if(_originalMoveSpeed == 0f)
+            {
+                _originalMoveSpeed = value;
+            }
             navAgent.speed = value;
         }
     }
@@ -157,5 +159,75 @@ public class BaseUnit : MonoBehaviour {
         }
 
         return unitList;
+    }
+
+    private Dictionary<Slow.SlowType, Slow> _slowEffects = new Dictionary<Slow.SlowType, Slow>();
+    public void addSlow(Slow slow)
+    {
+        //we only allow one slow per slow type, so update duration and percent to existing slow
+        if (_slowEffects.ContainsKey(slow.slowType))
+        {
+            _slowEffects[slow.slowType].duration = slow.duration;
+            _slowEffects[slow.slowType].slowValue = slow.slowValue;
+            _slowEffects[slow.slowType].owner = slow.owner;
+        }
+        //add a new slow effect for the unique tower
+        else
+        {
+            _slowEffects.Add(slow.slowType, slow);
+        }
+    }
+
+    private float _updateSlowGate = .1f;
+    private float _updateSlowCounter = 0f;
+    public void updateSlowEffects()
+    {
+        //if there arent any slows then we dont want to run this
+        if(_slowEffects.Count <= 0){
+            moveSpeed = _originalMoveSpeed;
+            return;
+        }
+
+        List<Slow> slowsToRemove = new List<Slow>();
+        float totalSlow = 0f;
+
+        //update slow durations, calculate total slow, store slows to remove
+        foreach (KeyValuePair<Slow.SlowType, Slow> slow in _slowEffects)
+        {
+            slow.Value.duration -= Time.deltaTime;
+            if (slow.Value.duration <= 0f)
+            {
+                slowsToRemove.Add(slow.Value);
+                continue;
+            }
+            totalSlow += slow.Value.slowValue;
+        }
+
+        //update movespeed here
+        float newSpeed = _originalMoveSpeed - totalSlow;
+        moveSpeed = (newSpeed >= 0f) == true ? newSpeed: 0f;
+
+        //remove the expired slows here
+        foreach(Slow removeSlow in slowsToRemove)
+        {
+            if (_slowEffects.ContainsKey(removeSlow.slowType))
+            {
+                _slowEffects.Remove(removeSlow.slowType);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        //update & remove slow effects
+        if(_updateSlowCounter >= _updateSlowGate)
+        {
+            _updateSlowCounter = 0f;
+            updateSlowEffects();
+        }
+        else
+        {
+            _updateSlowCounter += Time.deltaTime;
+        }
     }
 }

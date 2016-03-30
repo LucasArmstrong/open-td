@@ -90,7 +90,9 @@
     <Compile Include="Assets\scripts\core\towers\ITower.cs" />
     <Compile Include="Assets\scripts\core\towers\TowerFoundation.cs" />
     <Compile Include="Assets\scripts\core\towers\TowerManager.cs" />
+    <Compile Include="Assets\scripts\core\towers\debuffs\Slow.cs" />
     <Compile Include="Assets\scripts\core\towers\playable\FireballTower.cs" />
+    <Compile Include="Assets\scripts\core\towers\playable\IceTower.cs" />
     <Compile Include="Assets\scripts\core\units\BaseUnit.cs" />
     <Compile Include="Assets\scripts\core\units\SetRenderer.cs" />
     <Compile Include="Assets\scripts\core\units\UnitHealthBars.cs" />

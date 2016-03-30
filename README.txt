@@ -1,4 +1,6 @@
-I am working on Open TD to refine my game programming ability on the client side, and to share my concepts with the world.
+Open Source Tower Defense
+
+This is a Tower Defense style game developed in Unity3D 5.3.3f1 with C#. Finally the tower defense source code you've been dreaming of.
 
 I will update this README with more details about the project in the near future.
 

@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 public class TowerManager : MonoBehaviour {
 
+    //fireball
     public static int _TOWER_ID_FIREBALL = 1;
     public static string _TOWER_NAME_FIREBALL = "Fireball Tower";
+
+    //ice
+    public static int _TOWER_ID_ICE = 2;
+    public static string _TOWER_NAME_ICE = "Ice Tower";
 
     private static List<BaseTower> _towerTypes = new List<BaseTower>();
     private static List<BaseTower> _spawnedTower = new List<BaseTower>();
@@ -12,6 +17,7 @@ public class TowerManager : MonoBehaviour {
     void Awake()
     {
         addTowerPath("prefabs/towers/FireballTower");
+        addTowerPath("prefabs/towers/IceTower");
     }
 
     private void addTowerPath(string path)
