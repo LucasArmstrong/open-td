@@ -105,16 +105,22 @@ public class BaseUnit : MonoBehaviour {
         _deathCallbacks.Add(callback);
     }
 
+    public bool dead = false;
     public void die()
     {
-        if(_deathCallbacks.Count > 0)
+        dead = true;
+        animator.SetTrigger("Die");
+        navAgent.Stop();
+        navAgent.enabled = false;
+        Destroy(GetComponent<UnitHealthBars>());
+        if (_deathCallbacks.Count > 0)
         {
             foreach(UnitDeathCallbackType callback in _deathCallbacks)
             {
                 callback(this);
             }
         }
-        Destroy(gameObject);
+        Destroy(gameObject, 5f);
     }
 
     void Start()

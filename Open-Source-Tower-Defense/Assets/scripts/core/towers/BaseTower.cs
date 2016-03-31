@@ -31,7 +31,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
 	    if(runUpdateCounter >= coolDown)
         {
             runUpdateCounter = 0f;
-            if(currentTarget == null || !targetInRange())
+            if(currentTarget == null || !targetInRange() || targetDead())
             {
                 currentTarget = getClosestUnit();
             }
@@ -51,6 +51,15 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
             runUpdateCounter += Time.deltaTime;
         }
 	}
+
+    private bool targetDead()
+    {
+        if(currentTarget != null && currentTarget.dead)
+        {
+            return true;
+        }
+        return false;
+    }
 
     private bool targetInRange()
     {
@@ -72,6 +81,8 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
         {
             foreach(BaseUnit bu in unitsInRange)
             {
+                if (bu.dead) { continue; }
+
                 if(unit == null || Vector3.Distance(bu.transform.position, transform.position) < 
                                     Vector3.Distance(unit.transform.position, transform.position))
                 {
@@ -138,5 +149,8 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     }
     //**************  ITower implementation END *******************//
 
-
+    void OnMouseUp()
+    {
+        TowerManager.selectTower(this);
+    }
 }

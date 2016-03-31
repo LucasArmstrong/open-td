@@ -46,4 +46,9 @@ public class TowerManager : MonoBehaviour {
         _spawnedTower.Add(tower);
     }
 
+    public static void selectTower(BaseTower tower)
+    {
+        Debug.Log("selecting tower: " + tower.getName());
+    }
+
 }
