@@ -84,6 +84,7 @@ public class BaseUnit : MonoBehaviour {
 
     public void takeDamage(int damage)
     {
+
         healthCurrent -= damage;
 
         if(_UnitHealthBars != null)
@@ -108,8 +109,8 @@ public class BaseUnit : MonoBehaviour {
     public bool dead = false;
     public void die()
     {
+        if (dead) { return; }
         dead = true;
-        animator.SetTrigger("Die");
         navAgent.Stop();
         navAgent.enabled = false;
         Destroy(GetComponent<UnitHealthBars>());
@@ -120,6 +121,7 @@ public class BaseUnit : MonoBehaviour {
                 callback(this);
             }
         }
+        animator.SetTrigger("Die");
         Destroy(gameObject, 5f);
     }
 

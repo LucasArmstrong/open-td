@@ -14,6 +14,8 @@ public class TowerManager : MonoBehaviour {
     private static List<BaseTower> _towerTypes = new List<BaseTower>();
     private static List<BaseTower> _spawnedTower = new List<BaseTower>();
 
+    private static BaseTower _selectedTower = null;
+
     void Awake()
     {
         addTowerPath("prefabs/towers/FireballTower");
@@ -48,7 +50,39 @@ public class TowerManager : MonoBehaviour {
 
     public static void selectTower(BaseTower tower)
     {
-        Debug.Log("selecting tower: " + tower.getName());
+        if(TowerManager._selectedTower != tower)
+        {
+            //Debug.Log("selecting tower: " + tower.getName());
+            TowerManager._selectedTower = tower;
+        }
+    }
+
+    public static void deselectTower()
+    {
+        TowerManager._selectedTower = null;
+    }
+
+    private Rect getSelectedTowerRect()
+    {
+        if(TowerManager._selectedTower != null)
+        {
+            Vector3 screenPos = TowerManager._selectedTower.screenPos;
+            Rect r = new Rect();
+            r.x = screenPos.x;
+            r.y = Screen.height - screenPos.y;
+            r.width = 150;
+            r.height = 50;
+            return r;
+        }
+        return new Rect();
+    }
+
+    private void OnGUI()
+    {
+        if(TowerManager._selectedTower != null)
+        {
+            GUI.Label(getSelectedTowerRect(), TowerManager._selectedTower.getName());
+        }
     }
 
 }

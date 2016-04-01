@@ -26,6 +26,13 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
   
     private float runUpdateCounter = 0f;
 
+    public Vector3 screenPos = Vector3.zero;
+
+    void Awake()
+    {
+        screenPos = Camera.main.WorldToScreenPoint(transform.position);
+    }
+
 	// Update is called once per frame
 	void Update () {
 	    if(runUpdateCounter >= coolDown)
