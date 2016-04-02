@@ -135,10 +135,15 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
             projectile.owner = this;
             projectile.useGravity = true;
 
-            float yOffset = currentTarget.trueRenderer != null ? currentTarget.trueRenderer.bounds.size.y : 1f;
+            float yOffset = 1f;
+            BaseUnit targetUnit = gameObject.GetComponent<BaseUnit>();
+            if (targetUnit != null && targetUnit.trueRenderer != null)
+            {
+                yOffset = targetUnit.trueRenderer.bounds.size.y;
+            }
             projectile.vectorOffset = new Vector3(0f, yOffset, 0f);
 
-            projectile.projectileToGameObject(currentTarget.gameObject);
+            projectile.projectileToGameObject(gameObject);
         }
     }
     //**************  IProjectileOwner implementation END *******************//

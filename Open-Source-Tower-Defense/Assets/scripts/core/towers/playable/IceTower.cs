@@ -3,11 +3,12 @@
 public class IceTower : BaseTower, ITower
 {
     private float _slowValue = 1.55f;
+
     private float _slowDuration = 5f;//5 seconds
 
-    public int id = TowerManager._TOWER_ID_ICE;
+    private int _id = TowerManager._TOWER_ID_ICE;
 
-    public string towerName = TowerManager._TOWER_NAME_ICE;
+    private string _towerName = TowerManager._TOWER_NAME_ICE;
 
     //ice tower adds a movement slow effect to its target that is handled here
     public override void projectileHit(GameObject gameObject)
@@ -25,12 +26,12 @@ public class IceTower : BaseTower, ITower
 
     public override int getId()
     {
-        return id;
+        return _id;
     }
 
     public override string getName()
     {
-        return towerName;
+        return _towerName;
     }
 
 }

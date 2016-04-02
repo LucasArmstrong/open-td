@@ -55,6 +55,18 @@ public class BaseProjectile : MonoBehaviour {
     */
     private bool _projectileLaunched = false;
 
+    /** @field _startTime
+      * @type float
+      * @desc the time when projectile was launched
+    */
+    private float _startTime = 0f;
+
+    /** @field _journeyLength
+      * @type float
+      * @desc original distance between projectile and its target
+    */
+    private float _journeyLength = 0f;
+
     /** @property useGravity
       * @type float
       * @desc control the movement speed of projectile
@@ -98,6 +110,18 @@ public class BaseProjectile : MonoBehaviour {
         set { _owner = value; }
     }
 
+    /** @method startProjectile
+      * @desc initializes start time and journey length, makes projectile ready
+      * @param Vector3 endPos - used to calculate journey distance
+      * @return void
+    */
+    private void startProjectile(Vector3 endPos)
+    {
+        _startTime = Time.time;
+        _journeyLength = Vector3.Distance(transform.position, endPos);
+        _projectileLaunched = true;
+    }
+
     /** @method projectileToGameObject
       * @desc use this to fire a projectile at a GameObject
       * @param GameObject targetObject - object the projectile will target
@@ -106,7 +130,7 @@ public class BaseProjectile : MonoBehaviour {
     public void projectileToGameObject(GameObject targetObject)
     {
         this._targetObject = targetObject;
-        _projectileLaunched = true;
+        startProjectile(targetObject.transform.position);
     }
 
     /** @method projectileHitGameObject
@@ -129,7 +153,7 @@ public class BaseProjectile : MonoBehaviour {
     public void projectileToPoint(Vector3 targetPoint)
     {
         this._targetPoint = targetPoint;
-        _projectileLaunched = true;
+        startProjectile(targetPoint);
     }
 
     /** @method projectileHitPoint
@@ -152,11 +176,13 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void updatePosition(Vector3 targetPos)
     {
-        float step = speed * Time.deltaTime;
-
-        Vector3 currentPos = Vector3.MoveTowards(transform.position, targetPos, step);
+        //update projectile position
+        float distCovered = (Time.time - _startTime) * speed;
+        float fracJourney = distCovered / _journeyLength;
+        Vector3 currentPos = Vector3.Lerp(transform.position, targetPos, fracJourney);
         transform.position = currentPos;
-        
+
+        //update projectile rotation
         Vector3 pointToFace = targetPos - currentPos;
         Quaternion rot = Quaternion.LookRotation(pointToFace);
         transform.rotation = rot;

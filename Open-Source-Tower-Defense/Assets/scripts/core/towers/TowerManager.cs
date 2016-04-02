@@ -11,6 +11,10 @@ public class TowerManager : MonoBehaviour {
     public static int _TOWER_ID_ICE = 2;
     public static string _TOWER_NAME_ICE = "Ice Tower";
 
+    //splitshot
+    public static int _TOWER_ID_SPLIT = 3;
+    public static string _TOWER_NAME_SPLIT = "Splitshot Tower";
+
     private static List<BaseTower> _towerTypes = new List<BaseTower>();
     private static List<BaseTower> _spawnedTower = new List<BaseTower>();
 
@@ -20,6 +24,7 @@ public class TowerManager : MonoBehaviour {
     {
         addTowerPath("prefabs/towers/FireballTower");
         addTowerPath("prefabs/towers/IceTower");
+        addTowerPath("prefabs/towers/SplitshotTower");
     }
 
     private void addTowerPath(string path)
