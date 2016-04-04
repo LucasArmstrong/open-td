@@ -28,6 +28,8 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
 
     public Vector3 screenPos = Vector3.zero;
 
+    public int level = 1;
+
     void Awake()
     {
         screenPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -159,10 +161,32 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     {
         return string.Empty;
     }
+
+    public virtual void upgradeTower()
+    {
+        level++;
+        Debug.Log("Upgrading: " + getName() + " to level " + level);
+    }
     //**************  ITower implementation END *******************//
 
     void OnMouseUp()
     {
         TowerManager.selectTower(this);
     }
+    
+    public virtual void UpgradeWindow(int windowID)
+    {
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Level " + level);
+        if (GUILayout.Button("Upgrade ($000)"))
+        {
+            upgradeTower();
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.Label("Damage: " + damage);
+        GUILayout.Label("Cooldown: " + coolDown);
+        GUILayout.Label("Range: " + range);
+    }
+    
 }

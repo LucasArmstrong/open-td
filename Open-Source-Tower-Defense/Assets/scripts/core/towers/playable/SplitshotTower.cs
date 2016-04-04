@@ -28,4 +28,9 @@ public class SplitshotTower : BaseTower, ITower
     {
         return _towerName;
     }
+
+    public override void upgradeTower()
+    {
+        base.upgradeTower();
+    }
 }

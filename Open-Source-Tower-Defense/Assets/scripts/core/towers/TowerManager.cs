@@ -73,10 +73,10 @@ public class TowerManager : MonoBehaviour {
         {
             Vector3 screenPos = TowerManager._selectedTower.screenPos;
             Rect r = new Rect();
-            r.x = screenPos.x;
-            r.y = Screen.height - screenPos.y;
-            r.width = 150;
-            r.height = 50;
+            r.width = 200;
+            r.height = 100;
+            r.x = screenPos.x + 10;
+            r.y = Screen.height - screenPos.y - (r.height/2);
             return r;
         }
         return new Rect();
@@ -86,7 +86,8 @@ public class TowerManager : MonoBehaviour {
     {
         if(TowerManager._selectedTower != null)
         {
-            GUI.Label(getSelectedTowerRect(), TowerManager._selectedTower.getName());
+            GUILayout.Window(0, getSelectedTowerRect(), TowerManager._selectedTower.UpgradeWindow, 
+                TowerManager._selectedTower.getName());
         }
     }
 

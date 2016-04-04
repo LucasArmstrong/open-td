@@ -2,4 +2,5 @@
 {
     int getId();
     string getName();
+    void upgradeTower();
 }
