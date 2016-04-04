@@ -117,9 +117,16 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void startProjectile(Vector3 endPos)
     {
-        _startTime = Time.time;
-        _journeyLength = Vector3.Distance(transform.position, endPos);
-        _projectileLaunched = true;
+        try
+        {
+            _startTime = Time.time;
+            _journeyLength = Vector3.Distance(transform.position, endPos);
+            _projectileLaunched = true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.startProjectile(" + endPos + "): Error: " + e.Message);
+        }
     }
 
     /** @method projectileToGameObject
@@ -129,8 +136,15 @@ public class BaseProjectile : MonoBehaviour {
     */
     public void projectileToGameObject(GameObject targetObject)
     {
-        this._targetObject = targetObject;
-        startProjectile(targetObject.transform.position);
+        try
+        {
+            this._targetObject = targetObject;
+            startProjectile(targetObject.transform.position);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.projectileToGameObject(" + targetObject.name + "): Error: " + e.Message);
+        }
     }
 
     /** @method projectileHitGameObject
@@ -139,9 +153,16 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void projectileHitGameObject()
     {
-        if(owner != null)
+        try
         {
-            owner.projectileHit(_targetObject);
+            if (owner != null)
+            {
+                owner.projectileHit(_targetObject);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.projectileHitGameObject(): Error: " + e.Message);
         }
     }
 
@@ -152,8 +173,15 @@ public class BaseProjectile : MonoBehaviour {
     */
     public void projectileToPoint(Vector3 targetPoint)
     {
-        this._targetPoint = targetPoint;
-        startProjectile(targetPoint);
+        try
+        {
+            this._targetPoint = targetPoint;
+            startProjectile(targetPoint);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.projectileToPoint(" + targetPoint + "): Error: " + e.Message);
+        }
     }
 
     /** @method projectileHitPoint
@@ -162,9 +190,16 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void projectileHitPoint()
     {
-        if (owner != null)
+        try
         {
-            owner.projectileHit(_targetPoint);
+            if (owner != null)
+            {
+                owner.projectileHit(_targetPoint);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.projectileHitPoint(): Error: " + e.Message);
         }
     }
 
@@ -176,16 +211,23 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void updatePosition(Vector3 targetPos)
     {
-        //update projectile position
-        float distCovered = (Time.time - _startTime) * speed;
-        float fracJourney = distCovered / _journeyLength;
-        Vector3 currentPos = Vector3.Lerp(transform.position, targetPos, fracJourney);
-        transform.position = currentPos;
+        try
+        {
+            //update projectile position
+            float distCovered = (Time.time - _startTime) * speed;
+            float fracJourney = distCovered / _journeyLength;
+            Vector3 currentPos = Vector3.Lerp(transform.position, targetPos, fracJourney);
+            transform.position = currentPos;
 
-        //update projectile rotation
-        Vector3 pointToFace = targetPos - currentPos;
-        Quaternion rot = Quaternion.LookRotation(pointToFace);
-        transform.rotation = rot;
+            //update projectile rotation
+            Vector3 pointToFace = targetPos - currentPos;
+            Quaternion rot = Quaternion.LookRotation(pointToFace);
+            transform.rotation = rot;
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log("BaseProjectile.updatePosition("+targetPos+"): Error: " + e.Message);
+        }
     }
 
     /** @method Update
@@ -194,32 +236,37 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void Update()
     {
-
-        //move towards target object
-        if (_targetObject != null)
+        try
         {
-            Vector3 pos = _targetObject.transform.position + vectorOffset;
-            updatePosition(pos);
-        }
-
-        //move towards target point
-        else if (_targetPoint != Vector3.zero)
-        {
-            updatePosition(_targetPoint);
-            if (_targetPoint == transform.position)
+            //move towards target object
+            if (_targetObject != null)
             {
-                //hit target point
-                projectileHitPoint();
+                Vector3 pos = _targetObject.transform.position + vectorOffset;
+                updatePosition(pos);
+            }
+
+            //move towards target point
+            else if (_targetPoint != Vector3.zero)
+            {
+                updatePosition(_targetPoint);
+                if (_targetPoint == transform.position)
+                {
+                    //hit target point
+                    projectileHitPoint();
+                    Destroy(gameObject);
+                }
+            }
+
+            //projectile was created but no longer has a target, kill projectile
+            else if (_projectileLaunched)
+            {
                 Destroy(gameObject);
             }
         }
-
-        //projectile was created but no longer has a target, kill projectile
-        else if (_projectileLaunched)
+        catch (System.Exception e)
         {
-            Destroy(gameObject);
+            Debug.Log("BaseProjectile.Update(): Error: " + e.Message);
         }
-
     }
 
     /** @method OnCollisionEnter
@@ -228,11 +275,18 @@ public class BaseProjectile : MonoBehaviour {
     */
     private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject == _targetObject)
+        try
         {
-            //hit target object
-            projectileHitGameObject();
-            Destroy(gameObject);
+            if (col.gameObject == _targetObject)
+            {
+                //hit target object
+                projectileHitGameObject();
+                Destroy(gameObject);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log("BaseProjectile.OnCollisionEnter(): Error: " + e.Message);
         }
     }
 
