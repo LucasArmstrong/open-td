@@ -8,7 +8,6 @@ public static class WorldObjects<T>{
         List<T> list = new List<T>();
         Collider[] colliders = (layerMask > 0) == true ? Physics.OverlapSphere(pos, radius, 1 << layerMask) 
                                                        : Physics.OverlapSphere(pos, radius);
-        Debug.Log("Layermask: " + layerMask);
         List<GameObject> alreadyChecked = new List<GameObject>();
         for (int i = 0; i < colliders.Length; i++)
         {
