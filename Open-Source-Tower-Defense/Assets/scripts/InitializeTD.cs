@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class InitializeTD : MonoBehaviour {
 
@@ -22,6 +23,13 @@ public class InitializeTD : MonoBehaviour {
         levelManager = gameObject.AddComponent<LevelManager>();
         currencyManager = gameObject.AddComponent<CurrencyManager>();
 
+        StartCoroutine(finishInit(1f));
+    }
+
+    public IEnumerator finishInit(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        Debug.Log("Tower count: " + WorldObjects<BaseTower>.withinPointRadius(StartPointLocator.startPointObject.transform.position, 200f).Count);
         Debug.Log("TD starts in " + _START_DELAY_SECONDS + " seconds!");
         StartCoroutine(levelManager.loadNextLevel(_START_DELAY_SECONDS));
     }
