@@ -7,7 +7,15 @@ public delegate void UnitDeathCallbackType(BaseUnit deadObj);
 public class BaseUnit : MonoBehaviour {
 
     private static int _id_counter = 0;
-    private static string _layer_string = "Units";
+    public static string _layer_string = "Units";
+
+    public static int layerMask
+    {
+        get
+        {
+            return LayerMask.NameToLayer(BaseUnit._layer_string);
+        }
+    }
 
     public int goldValue = 0;
 
@@ -141,32 +149,6 @@ public class BaseUnit : MonoBehaviour {
             goldValue = 0;
             die();
         }
-    }
-
-    public static List<BaseUnit> getUnitsInRange(Vector3 pos, float radius)
-    {
-        List<BaseUnit> unitList = new List<BaseUnit>();
-
-        int _unit_layer = LayerMask.NameToLayer(BaseUnit._layer_string);
-
-        Collider[] colliders = Physics.OverlapSphere(pos, radius, 1 << _unit_layer);
-        List<GameObject> alreadyChecked = new List<GameObject>();
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (alreadyChecked.Contains(colliders[i].gameObject)) { continue; }
-            alreadyChecked.Add(colliders[i].gameObject);
-
-            if (colliders[i] != null)
-            {
-                BaseUnit unit = colliders[i].gameObject.GetComponent<BaseUnit>();
-                if (unit != null && !unitList.Contains(unit))
-                {
-                    unitList.Add(unit);
-                }
-            }
-        }
-
-        return unitList;
     }
 
     private Dictionary<Slow.SlowType, Slow> _slowEffects = new Dictionary<Slow.SlowType, Slow>();

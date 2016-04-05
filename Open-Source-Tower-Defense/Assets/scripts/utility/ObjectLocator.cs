@@ -6,7 +6,7 @@ public class ObjectLocator
 
     Dictionary<string, Object> objects = new Dictionary<string, Object>();
 
-    public Object getGameOjbectByPath(string path)
+    public Object getGameObjectByPath(string path)
     {
         if (!objects.ContainsKey(path))
         {

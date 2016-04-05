@@ -11,8 +11,8 @@ public class SplitshotTower : BaseTower, ITower
     
     public override void projectileLaunch(GameObject gameObject)
     {
-        List<BaseUnit> targets = BaseUnit.getUnitsInRange(gameObject.transform.position, _radius);
-        foreach(BaseUnit unit in targets)
+        List<BaseUnit> targets = WorldObjects<BaseUnit>.withinPointRadius(gameObject.transform.position, _radius, BaseUnit.layerMask);
+        foreach (BaseUnit unit in targets)
         {
             if (unit.dead) { continue; }
             base.projectileLaunch(unit.gameObject);

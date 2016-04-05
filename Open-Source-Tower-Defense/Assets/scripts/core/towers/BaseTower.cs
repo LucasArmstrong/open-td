@@ -83,10 +83,8 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     private BaseUnit getClosestUnit()
     {
         BaseUnit unit = null;
-
-        List<BaseUnit> unitsInRange = BaseUnit.getUnitsInRange(transform.position, range);
-
-        if(unitsInRange != null && unitsInRange.Count > 0)
+        List<BaseUnit> unitsInRange = WorldObjects<BaseUnit>.withinPointRadius(transform.position, range, BaseUnit.layerMask);
+        if (unitsInRange != null && unitsInRange.Count > 0)
         {
             foreach(BaseUnit bu in unitsInRange)
             {
@@ -99,7 +97,6 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
                 }
             }
         }
-
         return unit;
     }
 
@@ -127,7 +124,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     public virtual void projectileLaunch(GameObject gameObject)
     {
         Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f, 1f, 0f);
-        GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameOjbectByPath(projectilePath),
+        GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameObjectByPath(projectilePath),
                     startPos,
                     Quaternion.identity);
         BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();

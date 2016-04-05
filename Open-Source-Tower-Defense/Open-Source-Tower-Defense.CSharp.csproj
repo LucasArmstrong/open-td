@@ -93,6 +93,7 @@
     <Compile Include="Assets\scripts\core\units\SetRenderer.cs" />
     <Compile Include="Assets\scripts\core\units\UnitHealthBars.cs" />
     <Compile Include="Assets\scripts\utility\ObjectLocator.cs" />
+    <Compile Include="Assets\scripts\utility\WorldObjects.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\_import\Mummy\Materials\myStandart.shader" />

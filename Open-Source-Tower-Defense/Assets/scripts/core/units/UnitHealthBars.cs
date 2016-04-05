@@ -25,9 +25,9 @@ public class UnitHealthBars : MonoBehaviour {
         }
 
         //load textures
-        _healthBarTex = (Texture)ObjectLocator.Instance.getGameOjbectByPath("bars/healthBar");
-        _backBarTex = (Texture)ObjectLocator.Instance.getGameOjbectByPath("bars/backgroundBar");
-        _overBarTex = (Texture)ObjectLocator.Instance.getGameOjbectByPath("bars/barOverlay");
+        _healthBarTex = (Texture)ObjectLocator.Instance.getGameObjectByPath("bars/healthBar");
+        _backBarTex = (Texture)ObjectLocator.Instance.getGameObjectByPath("bars/backgroundBar");
+        _overBarTex = (Texture)ObjectLocator.Instance.getGameObjectByPath("bars/barOverlay");
 
         _healthBarRectWidth = _healthBarWidth;
     }
