@@ -29,8 +29,8 @@ public class TowerManager : MonoBehaviour {
 
     private void addTowerPath(string path)
     {
-        BaseTower tower = ((GameObject)ObjectLocator.Instance.getGameObjectByPath(path)).GetComponent<BaseTower>();
-        if(tower != null)
+        BaseTower tower = (ResourceObjects<GameObject>.getResourceObjectByPath(path)).GetComponent<BaseTower>();
+        if (tower != null)
         {
             TowerManager._towerTypes.Add(tower);
         }

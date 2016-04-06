@@ -124,7 +124,7 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     public virtual void projectileLaunch(GameObject gameObject)
     {
         Vector3 startPos = projectileOrigin != null ? projectileOrigin.transform.position : transform.position + new Vector3(0f, 1f, 0f);
-        GameObject spawnedObj = (GameObject)Instantiate(ObjectLocator.Instance.getGameObjectByPath(projectilePath),
+        GameObject spawnedObj = (GameObject)Instantiate(ResourceObjects<GameObject>.getResourceObjectByPath(projectilePath),
                     startPos,
                     Quaternion.identity);
         BaseProjectile projectile = spawnedObj.GetComponent<BaseProjectile>();
