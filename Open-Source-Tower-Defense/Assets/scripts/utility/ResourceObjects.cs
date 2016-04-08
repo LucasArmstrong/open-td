@@ -30,15 +30,35 @@ public static class ResourceObjects<T> where T : Object{
     */
     public static T getResourceObjectByPath(string path)
     {
-        //check to see if the resource is already cached with it's path index
-        if (!_cache.ContainsKey(path))
+        try
         {
-            //load and add the resource to cache
-            _cache.Add(path, (T)Resources.Load(path, typeof(T)));
-        }
+            //check to see if the resource is already cached with it's path index
+            if (!_cache.ContainsKey(path))
+            {
+                //load the resource
+                T resource = (T)Resources.Load(path, typeof(T));
 
-        //return the resource indexed by path
-        return (T)_cache[path];
+                //add the resource to cache
+                _cache.Add(path, resource);
+
+                //return the loaded resource
+                return resource;
+            }
+
+            //resource path is already cached
+            else
+            {
+                //return the resource indexed by path
+                return (T)_cache[path];
+            }
+        }
+        catch(System.Exception e)
+        {
+            Debug.Log("ResourceObjects<T>.getResourceObjectByPath("+path+"): Error: " + e.Message);
+
+            //if theres any problem then return null
+            return null;
+        }
     }
 
 }
