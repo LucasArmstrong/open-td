@@ -75,6 +75,7 @@
     <Compile Include="Assets\scripts\core\levels\LevelLocator.cs" />
     <Compile Include="Assets\scripts\core\levels\LevelManager.cs" />
     <Compile Include="Assets\scripts\core\levels\LevelUnit.cs" />
+    <Compile Include="Assets\scripts\core\player\PlayerHealth.cs" />
     <Compile Include="Assets\scripts\core\projectiles\BaseProjectile.cs" />
     <Compile Include="Assets\scripts\core\structures\EndPoint.cs" />
     <Compile Include="Assets\scripts\core\structures\StartPoint.cs" />

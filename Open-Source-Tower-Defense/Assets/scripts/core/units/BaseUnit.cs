@@ -145,8 +145,10 @@ public class BaseUnit : MonoBehaviour {
     {
         if (col.gameObject.tag == "EndPoint")
         {
+            //TODO: Add event dispatch to this point , so we can manage PlayerHealth elsewhere
             //unit reached the end of the maze, we dont want to award gold
             goldValue = 0;
+            PlayerHealth.currentHealth--;
             die();
         }
     }

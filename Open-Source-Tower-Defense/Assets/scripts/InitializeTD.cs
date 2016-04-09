@@ -14,6 +14,7 @@ public class InitializeTD : MonoBehaviour {
     private LevelManager levelManager = null;
     private CurrencyManager currencyManager = null;
     private TowerManager towerManager = null;
+    private PlayerHealth playerHealth = null;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class InitializeTD : MonoBehaviour {
         towerManager = gameObject.AddComponent<TowerManager>();
         levelManager = gameObject.AddComponent<LevelManager>();
         currencyManager = gameObject.AddComponent<CurrencyManager>();
+        playerHealth = gameObject.AddComponent<PlayerHealth>();
 
         StartCoroutine(finishInit(1f));
     }
