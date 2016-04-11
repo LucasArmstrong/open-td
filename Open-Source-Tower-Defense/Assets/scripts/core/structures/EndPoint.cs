@@ -5,6 +5,7 @@ public class EndPointLocator
     public static GameObject endPointObject = null;
 }
 
+[RequireComponent(typeof(StructureHealthBar))]
 public class EndPoint : MonoBehaviour {
 
     void Awake()
