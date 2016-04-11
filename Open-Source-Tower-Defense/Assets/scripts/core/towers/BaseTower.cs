@@ -14,13 +14,22 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     private string projectilePath = string.Empty;
 
     [SerializeField]
-    private float range = 15f;
+    protected float range = 15f;
 
     [SerializeField]
-    private float coolDown = 1.5f;
+    protected float rangePerLevel = 0f;
+
+    [SerializeField]
+    protected float coolDown = 1.5f;
+
+    [SerializeField]
+    protected float coolDownPerLevel = 0f;
 
     [SerializeField]
     protected int damage = 1;
+
+    [SerializeField]
+    protected int damagePerLevel = 0;
 
     private BaseUnit currentTarget = null;
   
@@ -163,6 +172,10 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     {
         level++;
         Debug.Log("Upgrading: " + getName() + " to level " + level);
+
+        damage += damagePerLevel;
+        range += rangePerLevel;
+        coolDown -= coolDownPerLevel;
     }
     //**************  ITower implementation END *******************//
 
