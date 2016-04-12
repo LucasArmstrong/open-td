@@ -31,6 +31,9 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     [SerializeField]
     protected int damagePerLevel = 0;
 
+    [SerializeField]
+    protected int upgradeCost = 0;
+
     private BaseUnit currentTarget = null;
   
     private float runUpdateCounter = 0f;
@@ -170,12 +173,16 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
 
     public virtual void upgradeTower()
     {
-        level++;
-        Debug.Log("Upgrading: " + getName() + " to level " + level);
+        if (CurrencyManager.RemoveGold(upgradeCost))
+        {
+            upgradeCost *= 2;
+            level++;
+            Debug.Log("Upgrading: " + getName() + " to level " + level);
 
-        damage += damagePerLevel;
-        range += rangePerLevel;
-        coolDown -= coolDownPerLevel;
+            damage += damagePerLevel;
+            range += rangePerLevel;
+            coolDown -= coolDownPerLevel;
+        }
     }
     //**************  ITower implementation END *******************//
 
@@ -188,15 +195,28 @@ public class BaseTower : MonoBehaviour, IProjectileOwner, ITower {
     {
         GUILayout.BeginHorizontal();
         GUILayout.Label("Level " + level);
-        if (GUILayout.Button("Upgrade ($000)"))
+        if (canUpgradeTower() && GUILayout.Button("Upgrade now ($"+upgradeCost+")"))
         {
             upgradeTower();
+        }
+        else if(!canUpgradeTower())
+        {
+            GUILayout.Label("(Next upgrade $" + upgradeCost + ")");
         }
         GUILayout.EndHorizontal();
 
         GUILayout.Label("Damage: " + damage);
         GUILayout.Label("Cooldown: " + coolDown);
         GUILayout.Label("Range: " + range);
+    }
+
+    private bool canUpgradeTower()
+    {
+        if (CurrencyManager.TOTAL_GOLD >= upgradeCost)
+        {
+            return true;
+        }
+        return false;
     }
     
 }
