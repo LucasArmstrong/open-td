@@ -3,8 +3,8 @@
 public class StructureHealthBar : MonoBehaviour
 {
 
-    private float _healthBarWidth = 60f;
-    private float _healthBarHeight = 10f;
+    private float _healthBarWidth = 80f;
+    private float _healthBarHeight = 8f;
 
     private BaseUnit _unit = null;
 
@@ -17,6 +17,8 @@ public class StructureHealthBar : MonoBehaviour
     private float _updateGate = 1f;
     private float _updateCounter = 0f;
 
+    private float _yOffset = 0f;
+
     // Use this for initialization
     void Start()
     {
@@ -27,6 +29,8 @@ public class StructureHealthBar : MonoBehaviour
         _overBarTex = ResourceObjects<Texture>.getResourceObjectByPath("bars/barOverlay");
 
         _healthBarRectWidth = _healthBarWidth;
+
+        _yOffset = transform.GetComponent<Renderer>() != null ? transform.GetComponent<Renderer>().bounds.size.y : 1f;
     }
 
     // Update is called once per frame
@@ -54,11 +58,10 @@ public class StructureHealthBar : MonoBehaviour
         if (_healthBarRectWidth != _healthBarWidth)
         {
             GUI.depth = 3;
-            float yOffset = transform.GetComponent<Renderer>() != null ? transform.GetComponent<Renderer>().bounds.size.y : 1f;
-            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0f, yOffset, .75f));
-            Rect bgRect = new Rect(pos.x - (_healthBarWidth / 2.0f), Screen.height - (pos.y + yOffset),
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0f, _yOffset, .75f));
+            Rect bgRect = new Rect(pos.x - (_healthBarWidth / 2.0f), Screen.height - (pos.y + _yOffset),
                 _healthBarWidth, _healthBarHeight);
-            Rect hbRect = new Rect(pos.x - (_healthBarWidth / 2.0f), Screen.height - (pos.y + yOffset),
+            Rect hbRect = new Rect(pos.x - (_healthBarWidth / 2.0f), Screen.height - (pos.y + _yOffset),
                 _healthBarRectWidth, _healthBarHeight);
 
             GUI.DrawTexture(bgRect, _backBarTex, ScaleMode.StretchToFill);
